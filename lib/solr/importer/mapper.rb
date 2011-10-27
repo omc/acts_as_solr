@@ -15,11 +15,11 @@ class Solr::Importer::Mapper
     @mapping = mapping
     @options = options
   end
-  
+
   def field_data(orig_data, field_name)
     orig_data[field_name]
   end
-  
+
   def mapped_field_value(orig_data, field_mapping)
     case field_mapping
       when String
@@ -34,18 +34,18 @@ class Solr::Importer::Mapper
         raise "Unknown mapping for #{field_mapping}"
     end
   end
-  
+
   def map(orig_data)
     mapped_data = {}
     @mapping.each do |solr_name, field_mapping|
       value = mapped_field_value(orig_data, field_mapping)
       mapped_data[solr_name] = value if value
     end
-    
+
     mapped_data
   end
-  
-  
-  
-  
+
+
+
+
 end

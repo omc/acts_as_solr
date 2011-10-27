@@ -12,7 +12,7 @@
 
 class Solr::Response::Spellcheck < Solr::Response::Ruby
   attr_reader :suggestions
-  
+
   def initialize(ruby_code)
     super
     @suggestions = @data['suggestions']

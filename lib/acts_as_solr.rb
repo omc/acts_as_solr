@@ -34,8 +34,8 @@ require File.dirname(__FILE__) + '/lazy_document'
 require File.dirname(__FILE__) + '/will_paginate_support'
 module ActsAsSolr
   class ConnectionError < RuntimeError; end
-  
-  class Post    
+
+  class Post
     def self.execute(request)
       begin
         if File.exists?(RAILS_ROOT+'/config/solr.yml')
@@ -48,13 +48,13 @@ module ActsAsSolr
         end
         connection = Solr::Connection.new(url)
         return connection.send(request)
-      rescue 
+      rescue
         raise ActsAsSolr::ConnectionError, "Couldn't connect to the Solr server at #{url}. #{$!}"
         false
       end
     end
   end
-  
+
 end
 
 # reopen ActiveRecord and include the acts_as_solr method

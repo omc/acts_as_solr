@@ -1,5 +1,5 @@
 module ActsAsSolr #:nodoc:
-  
+
   class Post
     def initialize(body, mode = :search)
       @body = body
@@ -7,12 +7,12 @@ module ActsAsSolr #:nodoc:
       puts "The method ActsAsSolr::Post.new(body, mode).execute_post is depracated. " +
            "Use ActsAsSolr::Post.execute(body, mode) instead!"
     end
-    
+
     def execute_post
       ActsAsSolr::Post.execute(@body, @mode)
-    end    
+    end
   end
-  
+
   module ClassMethods
     def find_with_facet(query, options={})
       Deprecation.plog "The method find_with_facet is deprecated. Use find_by_solr instead, passing the " +
@@ -20,7 +20,7 @@ module ActsAsSolr #:nodoc:
       find_by_solr(query, options)
     end
   end
-  
+
   class Deprecation
     # Validates the options passed during query
     def self.validate_query options={}
@@ -41,7 +41,7 @@ module ActsAsSolr #:nodoc:
         options[:limit] ||= options[:rows]
       end
     end
-    
+
     # Validates the options passed during indexing
     def self.validate_index options={}
       if options[:background]
@@ -49,7 +49,7 @@ module ActsAsSolr #:nodoc:
              "ways to handle delayed saving of your records."
       end
     end
-    
+
     # This will print the text to stdout and log the text
     # if rails logger is available
     def self.plog text
@@ -57,5 +57,5 @@ module ActsAsSolr #:nodoc:
       RAILS_DEFAULT_LOGGER.warn text if defined? RAILS_DEFAULT_LOGGER
     end
   end
-  
+
 end

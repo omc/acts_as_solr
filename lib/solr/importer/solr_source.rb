@@ -21,7 +21,7 @@ class Solr::Importer::SolrSource
     @page_size = options[:page_size] || 1000
     @field_list = options[:field_list] || ["*"]
   end
-  
+
   def each
     done = false
     start = 0

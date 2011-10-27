@@ -14,7 +14,7 @@
 
 class Solr::Importer::ArrayMapper < Solr::Importer::Mapper
   # TODO document that initializer takes an array of Mappers [mapper1, mapper2, ... mapperN]
-  
+
   # TODO: make merge conflict handling configurable.  as is, the last map fields win.
   def map(orig_data_array)
     mapped_data = {}

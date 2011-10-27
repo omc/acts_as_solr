@@ -9,5 +9,5 @@ module ActsAsSolr
       ActsAsSolr::Post.execute(Solr::Request::Commit.new)
     end
   end
-  
+
 end

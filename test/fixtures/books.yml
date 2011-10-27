@@ -4,7 +4,7 @@ splinter_cell:
   name: Splinter Cell
   author: Tom Clancy
   published_on: <%= Date.today - 1.year %>
-  
+
 ruby:
   id: 2
   category_id: 2

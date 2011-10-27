@@ -6,34 +6,34 @@ module ActsAsSolr #:nodoc:
   module ClassMethods
     include CommonMethods
     include ParserMethods
-    
-    # Finds instances of a model. Terms are ANDed by default, can be overwritten 
+
+    # Finds instances of a model. Terms are ANDed by default, can be overwritten
     # by using OR between terms
-    # 
+    #
     # Here's a sample (untested) code for your controller:
-    # 
+    #
     #  def search
     #    results = Book.find_by_solr params[:query]
     #  end
-    # 
+    #
     # You can also search for specific fields by searching for 'field:value'
-    # 
+    #
     # ====options:
     # offset:: - The first document to be retrieved (offset)
     # limit:: - The number of rows per page
     # order:: - Orders (sort by) the result set using a given criteria:
     #
     #             Book.find_by_solr 'ruby', :order => 'description asc'
-    # 
+    #
     # field_types:: This option is deprecated and will be obsolete by version 1.0.
-    #               There's no need to specify the :field_types anymore when doing a 
-    #               search in a model that specifies a field type for a field. The field 
+    #               There's no need to specify the :field_types anymore when doing a
+    #               search in a model that specifies a field type for a field. The field
     #               types are automatically traced back when they're included.
-    # 
+    #
     #                 class Electronic < ActiveRecord::Base
     #                   acts_as_solr :fields => [{:price => :range_float}]
     #                 end
-    # 
+    #
     # facets:: This option argument accepts the following arguments:
     #          fields:: The fields to be included in the faceted search (Solr's facet.field)
     #          query:: The queries to be included in the faceted search (Solr's facet.query)
@@ -70,16 +70,16 @@ module ActsAsSolr #:nodoc:
     #            filter:: Similar to :query option provided by :facets, in that accepts an array of
     #                     of date queries to limit results. Can not be used as a part of a :field hash.
     #                     This is the only option that can be used if :fields is not present.
-    # 
+    #
     # Example:
-    # 
+    #
     #   Electronic.find_by_solr "memory", :facets => {:zeros => false, :sort => true,
     #                                                 :query => ["price:[* TO 200]",
     #                                                            "price:[200 TO 500]",
     #                                                            "price:[500 TO *]"],
     #                                                 :fields => [:category, :manufacturer],
     #                                                 :browse => ["category:Memory","manufacturer:Someone"]}
-    # 
+    #
     #
     # Examples of date faceting:
     #
@@ -100,13 +100,13 @@ module ActsAsSolr #:nodoc:
     #
     # scores:: If set to true this will return the score as a 'solr_score' attribute
     #          for each one of the instances found. Does not currently work with find_id_by_solr
-    # 
+    #
     #            books = Book.find_by_solr 'ruby OR splinter', :scores => true
     #            books.records.first.solr_score
     #            => 1.21321397
     #            books.records.last.solr_score
     #            => 0.12321548
-    # 
+    #
     # lazy:: If set to true the search will return objects that will touch the database when you ask for one
     #        of their attributes for the first time. Useful when you're using fragment caching based solely on
     #        types and ids.
@@ -116,19 +116,19 @@ module ActsAsSolr #:nodoc:
       puts data.inspect
       return parse_results(data, options) if data
     end
-    
+
     # Finds instances of a model and returns an array with the ids:
     #  Book.find_id_by_solr "rails" => [1,4,7]
     # The options accepted are the same as find_by_solr
-    # 
+    #
     def find_id_by_solr(query, options={})
       data = parse_query(query, options)
       return parse_results(data, {:format => :ids}) if data
     end
-    
+
     # This method can be used to execute a search across multiple models:
     #   Book.multi_solr_search "Napoleon OR Tom", :models => [Movie]
-    # 
+    #
     # ====options:
     # Accepts the same options as find_by_solr plus:
     # models:: The additional models you'd like to include in the search
@@ -141,25 +141,25 @@ module ActsAsSolr #:nodoc:
     #                          Where the value of each array is as Model:instance_id
     # scores:: If set to true this will return the score as a 'solr_score' attribute
     #          for each one of the instances found. Does not currently work with find_id_by_solr
-    # 
+    #
     #            books = Book.multi_solr_search 'ruby OR splinter', :scores => true
     #            books.records.first.solr_score
     #            => 1.21321397
     #            books.records.last.solr_score
     #            => 0.12321548
-    # 
+    #
     def multi_solr_search(query, options = {})
       models = multi_model_suffix(options)
       options.update(:results_format => :objects) unless options[:results_format]
       data = parse_query(query, options, models)
-      
+
       if data.nil? or data.total_hits == 0
         return SearchResults.new(:docs => [], :total => 0)
       end
 
       result = find_multi_search_objects(data, options)
       if options[:scores] and options[:results_format] == :objects
-        add_scores(result, data) 
+        add_scores(result, data)
       end
       SearchResults.new :docs => result, :total => data.total_hits
     end
@@ -167,7 +167,7 @@ module ActsAsSolr #:nodoc:
     def find_multi_search_objects(data, options)
       result = []
       if options[:results_format] == :objects
-        data.hits.each do |doc| 
+        data.hits.each do |doc|
           k = doc.fetch('id').first.to_s.split(':')
           result << k[0].constantize.find_by_id(k[1])
         end
@@ -176,29 +176,29 @@ module ActsAsSolr #:nodoc:
       end
       result
     end
-    
+
     def multi_model_suffix(options)
       models = "AND (#{solr_configuration[:type_field]}:#{self.name}"
       models << " OR " + options[:models].collect {|m| "#{solr_configuration[:type_field]}:" + m.to_s}.join(" OR ") if options[:models].is_a?(Array)
       models << ")"
     end
-    
+
     # returns the total number of documents found in the query specified:
     #  Book.count_by_solr 'rails' => 3
-    # 
-    def count_by_solr(query, options = {})        
+    #
+    def count_by_solr(query, options = {})
       data = parse_query(query, options)
       data.total_hits
     end
-            
-    # It's used to rebuild the Solr index for a specific model. 
+
+    # It's used to rebuild the Solr index for a specific model.
     #  Book.rebuild_solr_index
-    # 
+    #
     # If batch_size is greater than 0, adds will be done in batches.
     # NOTE: If using sqlserver, be sure to use a finder with an explicit order.
     # Non-edge versions of rails do not handle pagination correctly for sqlserver
     # without an order clause.
-    # 
+    #
     # If a finder block is given, it will be called to retrieve the items to index.
     # This can be very useful for things such as updating based on conditions or
     # using eager loading for indexed associations.
@@ -222,11 +222,11 @@ module ActsAsSolr #:nodoc:
             solr_add items
             solr_commit
           end
-    
+
           time_so_far = Time.now - start_time
-          iteration_time = Time.now - iteration_start         
+          iteration_time = Time.now - iteration_start
           logger.info "#{Process.pid}: #{items_processed} items for #{self.name} have been batch added to index in #{'%.3f' % time_so_far}s at #{'%.3f' % (items_processed / time_so_far)} items/sec (#{'%.3f' % (items.size / iteration_time)} items/sec for the last batch). Last id: #{last_id}"
-          
+
         end while items.nil? || items.size > 0
       else
         items = finder.call(self, {})
@@ -237,5 +237,5 @@ module ActsAsSolr #:nodoc:
       logger.info items_processed > 0 ? "Index for #{self.name} has been rebuilt" : "Nothing to index for #{self.name}"
     end
   end
-  
+
 end

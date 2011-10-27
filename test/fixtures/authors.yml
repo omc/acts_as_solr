@@ -2,7 +2,7 @@ tom_clancy:
   id: 1
   name: Tom Clancy
   biography: Tom Clancy (born 1947) writes novels of adventure and espionage in the international military-industrial complex that have earned him enormous popularity in the 1980s as a creator of the "techno-thriller" genre.
-  
+
 stephen_king:
   id: 2
   name: Stephen King

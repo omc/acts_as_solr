@@ -16,7 +16,7 @@ class Solr::Request::Spellcheck < Solr::Request::Select
     super('spellchecker')
     @params = params
   end
-  
+
   def to_hash
     hash = super
     hash[:q] = @params[:query]

@@ -32,7 +32,7 @@ class Solr::Request::ModifyDocument < Solr::Request::Update
       end
     end
     @mode = modes.join(",")
-    
+
     # only one key should be left over, the id
     @doc[update_data.keys[0].to_s] = update_data.values[0]
   end
@@ -43,9 +43,9 @@ class Solr::Request::ModifyDocument < Solr::Request::Update
     e.add_element(Solr::Document.new(@doc).to_xml)
     return e.to_s
   end
-  
+
   def handler
     "update?mode=#{@mode}"
   end
-  
+
 end

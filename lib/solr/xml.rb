@@ -14,7 +14,7 @@ module Solr::XML
 end
 
 begin
-  
+
   # If we can load rubygems and libxml-ruby...
   require 'rubygems'
   require 'xml/libxml'
@@ -31,14 +31,14 @@ begin
       self << x.to_s
     end
   end
-  
+
   # And use XML::Node for our XML generation
   Solr::XML::Element = XML::Node
-  
+
 rescue LoadError => e # If we can't load either rubygems or libxml-ruby
   puts "Requiring REXML"
   # Just use REXML.
   require 'rexml/document'
   Solr::XML::Element = REXML::Element
-  
+
 end

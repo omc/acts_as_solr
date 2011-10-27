@@ -17,7 +17,7 @@ class Solr::Response::Base
     @raw_response = raw_response
   end
 
-  # factory method for creating a Solr::Response::* from 
+  # factory method for creating a Solr::Response::* from
   # a request and the raw response content
   def self.make_response(request, raw)
 
@@ -28,7 +28,7 @@ class Solr::Response::Base
 
     # TODO: Factor out this case... perhaps the request object should provide the response class instead?  Or dynamically align by class name?
     #       Maybe the request itself could have the response handling features that get mixed in with a single general purpose response object?
-    
+
     begin
       klass = eval(request.class.name.sub(/Request/,'Response'))
     rescue NameError
@@ -36,7 +36,7 @@ class Solr::Response::Base
     else
       klass.new(raw)
     end
-    
+
   end
 
 end

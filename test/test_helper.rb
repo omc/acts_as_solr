@@ -40,10 +40,10 @@ class Test::Unit::TestCase
       klass = instance_eval table_name.to_s.capitalize.singularize
       klass.find(:all).each{|content| content.solr_save}
     end
-    
+
     clear_from_solr(:novels)
   end
-  
+
   private
   def self.clear_from_solr(table_name)
     ActsAsSolr::Post.execute(Solr::Request::Delete.new(:query => "type_s:#{table_name.to_s.capitalize.singularize}"))
