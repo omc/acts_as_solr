@@ -14,7 +14,7 @@
 # Solr::Request::Ping = Solr::Request.simple_request :format=>:xml, :handler=>'admin/ping'
 # class Solr::Request
 #   def self.simple_request(options)
-#     Class.new do 
+#     Class.new do
 #       def response_format
 #         options[:format]
 #       end
@@ -29,7 +29,7 @@ class Solr::Request::Ping < Solr::Request::Base
   def response_format
     :xml
   end
-  
+
   def handler
     'admin/ping'
   end

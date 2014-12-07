@@ -18,7 +18,7 @@ class Solr::Response::IndexInfo < Solr::Response::Ruby
   def num_docs
     return @data['index']['numDocs']
   end
-  
+
   def field_names
     return @data['fields'].keys
   end

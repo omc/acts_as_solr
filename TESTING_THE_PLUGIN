@@ -6,7 +6,7 @@ installed.
 
 Running `rake test` or just `rake` will run both test suites. Use `rake test:unit` to
 just run the unit test suite.
- 
+
 == How to run functional tests for this plugin:
 To run the acts_as_solr's plugin tests run the following steps:
 

@@ -18,12 +18,12 @@ class Solr::Request::Dismax < Solr::Request::Standard
   def initialize(params)
     @alternate_query = params.delete(:alternate_query)
     @sort_values = params.delete(:sort)
-    
+
     super
-    
+
     @query_type = "dismax"
   end
-  
+
   def to_hash
     hash = super
     hash[:tie] = @params[:tie_breaker]

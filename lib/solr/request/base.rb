@@ -11,24 +11,24 @@
 # limitations under the License.
 
 class Solr::Request::Base
-  
-  
+
+
   #TODO : Add base support for the debugQuery flag, and such that the response provides debug output easily
 
   # returns either :xml or :ruby depending on what the
   # response type is for a given request
-  
+
   def response_format
     raise "unknown request type: #{self.class}"
   end
-  
+
   def content_type
     'text/xml; charset=utf-8'
   end
 
-  # returns the solr handler or url fragment that can 
+  # returns the solr handler or url fragment that can
   # respond to this type of request
-  
+
   def handler
     raise "unknown request type: #{self.class}"
   end

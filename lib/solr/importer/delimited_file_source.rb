@@ -15,7 +15,7 @@
 # read into an array
 class Solr::Importer::DelimitedFileSource
   include Enumerable
-  
+
   def initialize(filename, splitter=/\t/)
     @filename = filename
     @splitter = splitter
@@ -24,15 +24,15 @@ class Solr::Importer::DelimitedFileSource
   def each
     lines = IO.readlines(@filename)
     headers = lines[0].split(@splitter).collect{|h| h.chomp}
-    
+
     lines[1..-1].each do |line|
       data = headers.zip(line.split(@splitter).collect{|s| s.chomp})
       def data.[](key)
         self.assoc(key.to_s)[1]
       end
-      
+
       yield(data)
     end
   end
-  
+
 end

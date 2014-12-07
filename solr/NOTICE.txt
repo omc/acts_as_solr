@@ -22,7 +22,7 @@ Copyright (c) 2008 John Resig, http://jquery.com/
 This product includes the stax-utils jar: https://stax-utils.dev.java.net/
 Copyright (c) 2004, Christian Niles, unit12.net
 Copyright (c) 2004, Sun Microsystems, Inc.
-Copyright (c) 2006, John Kristian 
+Copyright (c) 2006, John Kristian
 License: The BSD License (http://www.opensource.org/licenses/bsd-license.php)
 
 This product includes a JUnit jar: http://junit.sourceforge.net/
@@ -61,17 +61,17 @@ The jboss integration module is not included.
 ==     Jetty Notice                                                    ==
 =========================================================================
 ==============================================================
- Jetty Web Container 
+ Jetty Web Container
  Copyright 1995-2006 Mort Bay Consulting Pty Ltd
 ==============================================================
 
-This product includes some software developed at The Apache Software 
+This product includes some software developed at The Apache Software
 Foundation (http://www.apache.org/).
 
-The javax.servlet package used by Jetty is copyright 
-Sun Microsystems, Inc and Apache Software Foundation. It is 
+The javax.servlet package used by Jetty is copyright
+Sun Microsystems, Inc and Apache Software Foundation. It is
 distributed under the Common Development and Distribution License.
-You can obtain a copy of the license at 
+You can obtain a copy of the license at
 https://glassfish.dev.java.net/public/CDDLv1.0.html.
 
 The UnixCrypt.java code ~Implements the one way cryptography used by
@@ -83,7 +83,7 @@ from project Glassfish http://glassfish.dev.java.net.  Copyright 2005
 Sun Microsystems, Inc. and portions Copyright Apache Software Foundation.
 
 Some portions of the code are Copyright:
-  2006 Tim Vernum 
+  2006 Tim Vernum
   1999 Jason Gilbert.
 
 The jboss integration module contains some LGPL code.

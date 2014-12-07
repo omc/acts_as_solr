@@ -11,11 +11,11 @@
 # limitations under the License.
 
 class Solr::Request::IndexInfo < Solr::Request::Select
-  
+
   def handler
     'admin/luke'
   end
-  
+
   def to_hash
     {:numTerms => 0}.merge(super.to_hash)
   end

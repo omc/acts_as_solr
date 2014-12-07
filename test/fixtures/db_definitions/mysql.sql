@@ -28,7 +28,7 @@ CREATE TABLE `electronics` (
   `name` varchar(200) default NULL,
   `manufacturer` varchar(255) default NULL,
   `features` varchar(255) default NULL,
-  `category` varchar(255) default NULL, 
+  `category` varchar(255) default NULL,
   `price` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
 );

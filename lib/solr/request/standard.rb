@@ -14,37 +14,37 @@ class Solr::Request::Standard < Solr::Request::Select
 
   VALID_PARAMS = [:query, :sort, :default_field, :operator, :start, :rows, :shards, :date_facets,
     :filter_queries, :field_list, :debug_query, :explain_other, :facets, :highlighting, :mlt]
-  
+
   def initialize(params)
     super('standard')
-    
-    raise "Invalid parameters: #{(params.keys - VALID_PARAMS).join(',')}" unless 
+
+    raise "Invalid parameters: #{(params.keys - VALID_PARAMS).join(',')}" unless
       (params.keys - VALID_PARAMS).empty?
-    
+
     raise ":query parameter required" unless params[:query]
-    
+
     @params = params.dup
-    
+
     # Validate operator
     if params[:operator]
-      raise "Only :and/:or operators allowed" unless 
+      raise "Only :and/:or operators allowed" unless
         [:and, :or].include?(params[:operator])
-        
+
       @params[:operator] = params[:operator].to_s.upcase
     end
 
     # Validate start, rows can be transformed to ints
     @params[:start] = params[:start].to_i if params[:start]
     @params[:rows] = params[:rows].to_i if params[:rows]
-    
+
     @params[:field_list] ||= ["*","score"]
-    
+
     @params[:shards] ||= []
   end
-  
+
   def to_hash
     hash = {}
-    
+
     # standard request param processing
     sort = @params[:sort].collect do |sort|
       key = sort.keys[0]
@@ -63,7 +63,7 @@ class Solr::Request::Standard < Solr::Request::Select
     hash[:debugQuery] = @params[:debug_query]
     hash[:explainOther] = @params[:explain_other]
     hash[:shards] = @params[:shards].join(',') unless @params[:shards].empty?
-    
+
     # facet parameter processing
     if @params[:facets]
       # TODO need validation of all that is under the :facets Hash too
@@ -93,7 +93,7 @@ class Solr::Request::Standard < Solr::Request::Select
           end
         end
       end
-      
+
       if @params[:date_facets]
         hash["facet.date"] = []
         if @params[:date_facets][:fields]
@@ -123,7 +123,7 @@ class Solr::Request::Standard < Solr::Request::Select
         end
       end
     end
-    
+
     # highlighting parameter processing - http://wiki.apache.org/solr/HighlightingParameters
     if @params[:highlighting]
       hash[:hl] = true
@@ -383,7 +383,7 @@ class Solr::Request::Standard < Solr::Request::Select
       end
 
     end
-    
+
     if @params[:mlt]
       hash[:mlt] = true
       hash["mlt.count"] = @params[:mlt][:count]
@@ -396,7 +396,7 @@ class Solr::Request::Standard < Solr::Request::Select
       hash["mlt.maxntp"] = @params[:mlt][:max_tokens_parsed]
       hash["mlt.boost"] = @params[:mlt][:boost]
     end
-    
+
     hash.merge(super.to_hash)
   end
 

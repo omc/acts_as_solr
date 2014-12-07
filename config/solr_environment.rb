@@ -10,7 +10,7 @@ SOLR_DATA_PATH = "#{rails_root_dir}/solr/#{ENV['RAILS_ENV']}" unless defined? SO
 
 unless defined? SOLR_PORT
   config = YAML::load_file(rails_root_dir+'/config/solr.yml')
-  
+
   begin
     SOLR_PORT = ENV['PORT'] || URI.parse(config[ENV['RAILS_ENV']]['url']).port
   rescue
@@ -21,7 +21,7 @@ end
 
 begin
   SOLR_JVM_OPTIONS = config[ENV['RAILS_ENV']]['jvm_options'] unless defined? SOLR_JVM_OPTIONS
-rescue 
+rescue
   STDERR.puts "Couldn't set JVM Options"
   SOLR_JVM_OPTIONS = ""
 end

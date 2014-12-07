@@ -12,7 +12,7 @@
 
 class Solr::Indexer
   attr_reader :solr
-  
+
   # TODO: document options!
   def initialize(data_source, mapper_or_mapping, options={})
     solr_url = options[:solr_url] || ENV["SOLR_URL"] || "http://localhost:8983/solr"
@@ -29,22 +29,22 @@ class Solr::Indexer
     buffer = []
     @data_source.each do |record|
       document = @mapper.map(record)
-      
+
       # TODO: check arrity of block, if 3, pass counter as 3rd argument
       yield(record, document) if block_given? # TODO check return of block, if not true then don't index, or perhaps if document.empty?
-      
+
       buffer << document
-      
+
       if !@buffer_docs || buffer.size == @buffer_docs
         add_docs(buffer)
         buffer.clear
       end
     end
     add_docs(buffer) if !buffer.empty?
-    
+
     @solr.commit unless @debug
   end
-  
+
   def add_docs(documents)
     @solr.add(documents) unless @debug
     puts documents.inspect if @debug

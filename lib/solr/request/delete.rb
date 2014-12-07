@@ -41,7 +41,7 @@ class Solr::Request::Delete < Solr::Request::Update
       delete_element.add_element(id_element)
     elsif @query
       query = Solr::XML::Element.new('query')
-      query.text = @query 
+      query.text = @query
       delete_element.add_element(query)
     end
     delete_element.to_s
